@@ -1,10 +1,10 @@
 .best-sellers-section {
-    --color-light-gray: #9D9D9D;
-    --color-dark: #000000;
-    --color-accent: #e41616;
-  }
-  
-  .left {
+  --color-light-gray: #9d9d9d;
+  --color-dark: #000000;
+  --color-accent: #e41616;
+}
+
+.left {
   text-align: left;
 }
 
@@ -93,7 +93,7 @@
   gap: 3rem;
   align-items: start;
 
-@media screen and (min-width: 750px) {
+  @media screen and (min-width: 750px) {
     grid-template-columns: 1fr 1fr;
     gap: 6rem;
   }
@@ -135,103 +135,104 @@
 }
 
 .best-sellers-product-right {
-    position: relative;
-  }
-  
-  .split-product-panel {
-    display: none;
-  }
-  
-  .split-product-panel.active {
-    display: block;
-    animation: splitProductFadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  }
-  
-  .split-product-card {
+  position: relative;
+}
+
+.split-product-panel {
+  display: none;
+}
+
+.split-product-panel.active {
+  display: block;
+  animation: splitProductFadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+    forwards;
+}
+
+.split-product-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+}
+
+.split-product-media {
+  position: relative;
+  width: 100%;
+  padding-bottom: 120%;
+  overflow: hidden;
+  border-radius: 0.4rem;
+}
+
+.split-product-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.split-product-card:hover .split-product-img {
+  transform: scale(1.03);
+}
+
+.product-badges {
+  position: absolute;
+  top: 1.2rem;
+  left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  z-index: 2;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.8rem;
+  text-transform: capitalize;
+  box-shadow: 0 0.2rem 0.4rem rgb(var(--color-dark) / 5%);
+  background-color: #ffffff;
+  color: var(--color-dark);
+}
+
+.badge--sale {
+  background-color: var(--color-accent);
+  color: #ffffff;
+}
+
+.product-info {
+  position: absolute;
+  bottom: 1.2rem;
+  left: 1.2rem;
+  right: 1.2rem;
+  background-color: #ffffff;
+  border-radius: 1.6rem;
+  padding: 2.4rem 3.2rem;
+  text-decoration: none;
+  z-index: 3;
+  box-sizing: border-box;
+
+  @media screen and (min-width: 750px) {
     display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    color: inherit;
-    position: relative;
-  }
-  
-  .split-product-media {
-    position: relative;
-    width: 100%;
-    padding-bottom: 120%;
-    overflow: hidden;
-    border-radius: .4rem;
-  }
-  
-  .split-product-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-  }
-  
-  .split-product-card:hover .split-product-img {
-    transform: scale(1.03);
-  }
-  
-  .product-badges {
-    position: absolute;
-    top: 1.2rem;
-    left: 1.2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    z-index: 2;
-  }
-  
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.8rem 1.6rem;
-    border-radius: 0.8rem;
-    text-transform: capitalize;
-    box-shadow: 0 0.2rem 0.4rem rgb(var(--color-dark) / 5%);
-    background-color: #ffffff;
-    color: var(--color-dark);
-  }
-  
-  .badge--sale {
-    background-color: var(--color-accent);
-    color: #ffffff;
-  }
-  
-  .product-info {
-    position: absolute;
-    bottom: 1.2rem;
-    left: 1.2rem;
-    right: 1.2rem;
-    background-color: #ffffff;
-    border-radius: 1.6rem;
-    padding: 2.4rem 3.2rem;
-    text-decoration: none;
-    z-index: 3;
-    box-sizing: border-box;
-  
-    @media screen and (min-width: 750px) {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-  }
-  
-  .product-title {
-    margin: 0;
-  }
-  
-  .split-product-price {
-    display: flex;
-    gap: 0.8rem;
+    justify-content: space-between;
     align-items: center;
   }
+}
+
+.product-title {
+  margin: 0;
+}
+
+.split-product-price {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
 
 @keyframes splitProductFadeIn {
   from {

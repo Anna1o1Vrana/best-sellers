@@ -162,12 +162,58 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "best_sellers_HpKwMY": {
+      "type": "best-sellers",
+      "blocks": {
+        "collection_list_hQr8Wk": {
+          "type": "collection_list",
+          "settings": {
+            "collection": "charitybands®",
+            "collection_title": "",
+            "custom_product": ""
+          }
+        },
+        "collection_list_jFJUU4": {
+          "type": "collection_list",
+          "settings": {
+            "collection": "statement-collection",
+            "collection_title": "",
+            "custom_product": ""
+          }
+        },
+        "collection_list_xr9WBx": {
+          "type": "collection_list",
+          "settings": {
+            "collection": "mantra-rings",
+            "collection_title": "",
+            "custom_product": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_list_hQr8Wk",
+        "collection_list_jFJUU4",
+        "collection_list_xr9WBx"
+      ],
+      "name": "Best Sellers",
+      "settings": {
+        "title_uptext": "Best Sellers",
+        "title_uptext_text_size": "small-text",
+        "title_uptext_color_scheme": "light-gray",
+        "title_uptext_alignment": "left",
+        "title": "Trending Products",
+        "title_text_size": "super-big-text",
+        "title_color_scheme": "dark",
+        "title_alignment": "left"
+      }
     }
   },
   "order": [
     "6a3bb789-ce10-45f5-ae67-e2063ef8c76b",
     "featured_collection",
     "f1552b18-6017-4231-810d-74e61da22c37",
-    "38cdf60f-e431-43b5-aac3-7e6215447d67"
+    "38cdf60f-e431-43b5-aac3-7e6215447d67",
+    "best_sellers_HpKwMY"
   ]
 }

@@ -3,11 +3,10 @@ function initBestSellersSplit() {
   const overlay = document.querySelector("[data-wishlist-overlay]");
   const closeBtn = document.querySelector("[data-wishlist-close]");
   const modalTitle = document.querySelector("[data-wishlist-product-title]");
-  console.log(sections, overlay, closeBtn, modalTitle);
 
   const openModal = (productTitle) => {
     if (!overlay) return;
-    modalTitle.textContent = productTitle;
+    if (modalTitle) modalTitle.textContent = productTitle;
     overlay.classList.add("is-open");
     document.body.classList.add("modal-open");
   };
@@ -19,16 +18,22 @@ function initBestSellersSplit() {
   };
 
   if (overlay && !overlay.dataset.listenersBound) {
-    closeBtn.addEventListener("click", closeModal);
+    if (closeBtn) closeBtn.addEventListener("click", closeModal);
     overlay.addEventListener("click", (e) => {
       if (e.target === overlay) closeModal();
     });
     overlay.dataset.listenersBound = "true";
   }
 
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeModal();
+    }
+  });
+
   sections.forEach((section) => {
-    const buttons = section.querySelectorAll(".menu-collection-btn");
-    const panels = section.querySelectorAll(".split-product-panel");
+    const buttons = section.querySelectorAll("[data-menu-collection-btn]");
+    const panels = section.querySelectorAll("[data-product-panel]");
 
     if (!buttons.length) return;
 
@@ -51,27 +56,34 @@ function initBestSellersSplit() {
 
     document.addEventListener("shopify:block:select", (e) => {
       if (!section.contains(e.target)) return;
-      const btn = e.target.querySelector(".menu-collection-btn") || e.target;
+      const btn =
+        e.target.querySelector("[data-menu-collection-btn]") || e.target;
       const targetId = btn.getAttribute("data-target-product");
       if (targetId) switchTab(targetId, btn);
     });
     section.addEventListener("click", (e) => {
-      const wishlistBtn = e.target.closest(".action-btn--wishlist");
+      const wishlistBtn = e.target.closest("[data-open-wishlist]");
       if (wishlistBtn) {
         e.preventDefault();
         const title = wishlistBtn.getAttribute("data-product-title");
         openModal(title);
+        return;
       }
 
-      const quickAddBtn = e.target.closest(".action-btn--quick-add");
+      const quickAddBtn = e.target.closest("[data-add-product-to-cart]");
       if (quickAddBtn) {
         e.preventDefault();
-        if (quickAddBtn.hasAttribute("disabled")) return;
+        if (
+          quickAddBtn.hasAttribute("disabled") ||
+          quickAddBtn.classList.contains("in-process")
+        )
+          return;
 
         const variantId = quickAddBtn.getAttribute("data-variant-id");
+        if (!variantId) return;
 
-        quickAddBtn.style.pointerEvents = "none";
-        quickAddBtn.style.opacity = "0.6";
+        quickAddBtn.classList.add("in-process");
+        quickAddBtn.setAttribute("disabled", "true");
 
         fetch("/cart/add.js", {
           method: "POST",
@@ -83,20 +95,24 @@ function initBestSellersSplit() {
             quantity: 1,
           }),
         })
-          .then((response) => response.json())
+          .then((response) => {
+            if (!response.ok) throw new Error("Shopify API Error");
+            return response.json();
+          })
           .then((data) => {
-            quickAddBtn.style.pointerEvents = "auto";
-            quickAddBtn.style.opacity = "1";
-            quickAddBtn.style.backgroundColor = "#e8f5e9";
-            setTimeout(
-              () => (quickAddBtn.style.backgroundColor = "#ffffff"),
-              1000,
-            );
+            quickAddBtn.classList.remove("in-process");
+            quickAddBtn.classList.add("product-added");
+
+            setTimeout(() => {
+              quickAddBtn.classList.remove("in-process");
+              quickAddBtn.classList.remove("product-added");
+              quickAddBtn.removeAttribute("disabled");
+            }, 1000);
           })
           .catch((error) => {
             console.error("Error adding to cart:", error);
-            quickAddBtn.style.pointerEvents = "auto";
-            quickAddBtn.style.opacity = "1";
+            quickAddBtn.classList.remove("in-process");
+            quickAddBtn.removeAttribute("disabled");
           });
       }
     });

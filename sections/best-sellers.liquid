@@ -4,14 +4,14 @@
   <div class="best-sellers-split-container">
     <div class="best-sellers-menu-left">
       {%- if section.settings.title_uptext != blank -%}
-        <p class="best-sellers__title-uptext {{ section.settings.title_uptext_alignment }} {{ section.settings.title_uptext_text_size }} {{ section.settings.title_uptext_color_scheme }}">
+        <h3 class="best-sellers__title-uptext {{ section.settings.title_uptext_alignment }} {{ section.settings.title_uptext_text_size }} {{ section.settings.title_uptext_color_scheme }}">
           {{ section.settings.title_uptext | escape }}
-        </p>
+        </h3>
       {%- endif -%}
       {%- if section.settings.title != blank -%}
-        <p class="best-sellers__title {{ section.settings.title_alignment }} {{ section.settings.title_text_size }} {{ section.settings.title_color_scheme }}">
+        <h2 class="best-sellers__title {{ section.settings.title_alignment }} {{ section.settings.title_text_size }} {{ section.settings.title_color_scheme }}">
           {{ section.settings.title | escape }}
-        </p>
+        </h2>
       {%- endif -%}
 
       {%- if section.blocks.size > 0 -%}
@@ -28,7 +28,7 @@
 
           <button
             class="menu-collection-btn medium-text{% if forloop.first %} active{% endif %}"
-            data-target-product="prod-{{ section.id }}-{{ forloop.index }}"
+            data-target-product="prod-{{ section.id }}-{{ forloop.index }}" data-menu-collection-btn
             {{ block.shopify_attributes }}
           >
             <span class="menu-collection-title big-text">{{ display_title | escape }}</span>
@@ -61,12 +61,12 @@
 
           <div
             id="prod-{{ section.id }}-{{ forloop.index }}"
-            class="split-product-panel{% if forloop.first %} active{% endif %}"
+            class="split-product-panel{% if forloop.first %} active{% endif %}" data-product-panel
           >
             {%- if target_product != blank -%}
               <div class="split-product-card">
                 <div class="split-product-media">
-                  <a href="{{ target_product.url }}" aria-label="{{ target_product.title | escape }}">
+                  <a href="{{ target_product.url | within: current_collection }}" aria-label="{{ target_product.title | escape }}">
                     {%- if target_product.featured_media != blank -%}
                       <picture>
                         <source
@@ -121,6 +121,7 @@
                       type="button"
                       class="action-btn action-btn--wishlist"
                       data-product-title="{{ target_product.title | escape }}"
+                      data-open-wishlist
                       aria-label="Add to wishlist"
                     >
                       <svg
@@ -140,6 +141,7 @@
                       type="button"
                       class="action-btn action-btn--quick-add"
                       data-variant-id="{{ target_product.first_available_variant.id }}"
+                      data-add-product-to-cart
                       {% unless target_product.available %}
                         disabled
                       {% endunless %}
@@ -161,7 +163,7 @@
                   </div>
                 </div>
 
-                <a href="{{ target_product.url }}" class="product-info">
+                <a href="{{ target_product.url | within: current_collection }}" class="product-info">
                   <h3 class="product-title small-text dark">{{ target_product.title | escape }}</h3>
                   <div class="split-product-price">
                     {%- if target_product.compare_at_price > target_product.price -%}
@@ -176,7 +178,7 @@
             {%- else -%}
               <div class="split-product-card placeholder-card">
                 <div class="split-product-media">
-                  {{ 'product-1' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg' }}
+                  {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
                 </div>
                 <div class="split-product-info">
                   <h3 class="split-product-title">Please choose the collection</h3>
@@ -189,7 +191,7 @@
   </div>
 
   <div class="wishlist-overlay" id="WishlistOverlay" data-wishlist-overlay>
-    <div class="wishlist-modal">
+    <div class="wishlist-modal" role="dialog" aria-modal="true" aria-labelledby="WishlistProductTitle">
       <button
         type="button"
         class="wishlist-modal__close"

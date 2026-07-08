@@ -12,6 +12,10 @@
     "main": {
       "type": "main-product",
       "blocks": {
+        "label_app_promo_badge_NaaUig": {
+          "type": "shopify://apps/label-app/blocks/promo_badge/019f408c-ce54-70e6-8c60-ed042f3e9458",
+          "settings": {}
+        },
         "title": {
           "type": "title",
           "settings": {}
@@ -58,6 +62,7 @@
         }
       },
       "block_order": [
+        "label_app_promo_badge_NaaUig",
         "title",
         "vendor",
         "variant_picker",
